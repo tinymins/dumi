@@ -10,7 +10,7 @@ import type { IApi as IUmiApi } from 'umi';
 
 type IUmiConfig = IUmiApi['config'];
 
-export interface IDumiConfig extends IUmiConfig {
+interface IDumiCustomConfig {
   resolve: {
     docDirs: (string | { type?: string; dir: string })[];
     /**
@@ -32,9 +32,11 @@ export interface IDumiConfig extends IUmiConfig {
   // eslint-disable-next-line @typescript-eslint/ban-types
   extraRehypePlugins?: (string | Function | [string | Function, object])[];
 }
+export type IDumiConfig = IDumiCustomConfig & IUmiConfig;
 
 export interface IDumiUserConfig
-  extends Partial<Omit<IDumiConfig, 'resolve' | 'locales'>> {
+  extends Partial<Omit<IDumiCustomConfig, 'resolve' | 'locales'>>,
+    IUmiConfig {
   resolve?: Partial<IDumiConfig['resolve']>;
   locales?: (
     | IDumiConfig['locales'][0]
